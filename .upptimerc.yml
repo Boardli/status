@@ -13,9 +13,9 @@ sites:
     url: https://api.boardli.ai/health
 
 status-website:
-  # Served at https://boardli.github.io/status until DNS for status.boardli.ai
-  # is in place; then replace `baseUrl` with `cname: status.boardli.ai`.
-  baseUrl: /status
+  # DNS: status.boardli.ai CNAME -> boardli.github.io, DNS-only (not proxied) so
+  # GitHub Pages can complete HTTP validation and issue the TLS certificate.
+  cname: status.boardli.ai
   name: Boardli
   introTitle: "**Boardli** system status"
   introMessage: >-
