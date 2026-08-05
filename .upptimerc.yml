@@ -2,8 +2,8 @@ owner: Boardli
 repo: status
 
 # Production endpoints probed every 5 minutes by GitHub Actions.
-# /health is used for the API because it is the documented liveness endpoint and
-# returns a minimal {"status":"ok"} to non-ELB callers (no internal state leaked).
+# /health is the documented liveness endpoint and returns a minimal
+# {"status":"ok"} to non-ELB callers (no internal state leaked).
 sites:
   - name: Website
     url: https://boardli.ai
@@ -17,17 +17,115 @@ status-website:
   # GitHub Pages can complete HTTP validation and issue the TLS certificate.
   cname: status.boardli.ai
   name: Boardli
+  theme: light
+
+  # Wordmark for the page header (14 KB webp) and a square icon for the browser tab.
+  logoUrl: https://raw.githubusercontent.com/Boardli/status/master/assets/boardli-logo.webp
+  favicon: https://raw.githubusercontent.com/Boardli/status/master/assets/boardli-icon.png
+
   introTitle: "**Boardli** system status"
   introMessage: >-
     Live availability and incident history for the Boardli website, application,
     and API. Checks run automatically every 5 minutes.
+
   navbar:
     - title: Status
       href: /
     - title: Boardli
       href: https://boardli.ai
     - title: Sign in
-      href: https://app.boardli.ai
+      href: https://app.boardli.ai/login
+
+  # Brand typefaces, matching apps/web/src/styles/designSystem.js
+  links:
+    - rel: preconnect
+      href: https://fonts.googleapis.com
+    - rel: preconnect
+      href: https://fonts.gstatic.com
+      crossorigin: anonymous
+    - rel: stylesheet
+      href: https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap
+
+  # Boardli "Blue-Grey Minimal" design system.
+  # Tokens mirror designSystem.js: primary 900 #102A43, accent 600 #1992D4,
+  # surface #F0F4F8, and the canonical two-part card shadow.
+  css: |
+    :root {
+      --bl-navy: #102A43;
+      --bl-navy-800: #243B53;
+      --bl-slate: #627D98;
+      --bl-line: #D9E2EC;
+      --bl-accent: #1992D4;
+      --bl-accent-dark: #127FBF;
+      --bl-accent-tint: #E3F8FF;
+      --bl-surface: #F0F4F8;
+      --bl-shadow: 0 1px 3px rgba(16, 42, 67, 0.12), 0 1px 2px rgba(16, 42, 67, 0.06);
+    }
+
+    body {
+      background: var(--bl-surface);
+      color: var(--bl-navy-800);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Display serif for the page title only — Boardli's editorial accent. */
+    main h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      color: var(--bl-navy);
+      letter-spacing: -0.015em;
+      font-weight: 700;
+    }
+    main h1 strong { font-weight: 700; }
+
+    h2, h3 { color: var(--bl-navy); font-weight: 600; letter-spacing: -0.01em; }
+
+    a { color: var(--bl-accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+    a:hover { color: var(--bl-accent-dark); }
+
+    /* Top navigation */
+    nav { background: #fff; box-shadow: 0 1px 3px rgba(16, 42, 67, 0.08); }
+    nav a { color: var(--bl-slate); font-weight: 500; }
+    nav a:hover { color: var(--bl-navy); }
+
+    /* Component cards — canonical Boardli card treatment */
+    main .status, main li, .card {
+      background: #fff;
+      border: none !important;
+      border-radius: 14px;
+      box-shadow: var(--bl-shadow);
+    }
+
+    /* Time-range switcher reads as a control, not body text */
+    main .toggle, main .toggles a { color: var(--bl-slate); font-weight: 500; }
+    main .toggle.active, main .toggles a.active { color: var(--bl-accent-dark); }
+
+    /* Upstream attribution removed from the rendered page. The MIT LICENSE
+       file is retained in this repository as the licence requires. */
+    footer { display: none !important; }
+
+    /* Boardli footer injected via customFootHtml */
+    .bl-footer {
+      max-width: 45rem;
+      margin: 2.5rem auto 3rem;
+      padding: 1.25rem 1rem 0;
+      border-top: 1px solid var(--bl-line);
+      color: var(--bl-slate);
+      font-size: 0.8125rem;
+      text-align: center;
+      line-height: 1.7;
+    }
+    .bl-footer a { color: var(--bl-slate); text-decoration: none; margin: 0 0.6rem; }
+    .bl-footer a:hover { color: var(--bl-accent-dark); text-decoration: underline; }
+    .bl-footer .bl-legal { display: block; margin-top: 0.5rem; opacity: 0.75; }
+
+  customFootHtml: >-
+    <div class="bl-footer">
+      <a href="https://boardli.ai">Boardli</a>
+      <a href="https://app.boardli.ai/login">Sign in</a>
+      <a href="https://status.boardli.ai/history.json">History</a>
+      <span class="bl-legal">&copy; Boardli Ltd. &middot; Availability data updated every 5 minutes.</span>
+    </div>
 
 # Incidents are GitHub Issues in this repository; new ones are assigned here.
 assignees:
