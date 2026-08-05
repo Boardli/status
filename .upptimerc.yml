@@ -119,13 +119,25 @@ status-website:
     .bl-footer a:hover { color: var(--bl-accent-dark); text-decoration: underline; }
     .bl-footer .bl-legal { display: block; margin-top: 0.5rem; opacity: 0.75; }
 
-  customFootHtml: >-
-    <div class="bl-footer">
-      <a href="https://boardli.ai">Boardli</a>
-      <a href="https://app.boardli.ai/login">Sign in</a>
-      <a href="https://status.boardli.ai/history.json">History</a>
-      <span class="bl-legal">&copy; Boardli Ltd. &middot; Availability data updated every 5 minutes.</span>
-    </div>
+  # customFootHtml is not supported in the pinned Upptime version, and Svelte
+  # hydration owns <main>/<footer>, so the footer is appended to <body> on load.
+  js: |
+    (function () {
+      function mount() {
+        if (document.querySelector('.bl-footer')) return;
+        var f = document.createElement('div');
+        f.className = 'bl-footer';
+        f.innerHTML =
+          '<a href="https://boardli.ai">Boardli</a>' +
+          '<a href="https://app.boardli.ai/login">Sign in</a>' +
+          '<span class="bl-legal">&copy; Boardli Ltd. &middot; Availability data updated every 5 minutes.</span>';
+        document.body.appendChild(f);
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', mount);
+      } else { mount(); }
+      window.addEventListener('load', mount);
+    })();
 
 # Incidents are GitHub Issues in this repository; new ones are assigned here.
 assignees:
