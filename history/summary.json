@@ -40,9 +40,9 @@
     "url": "https://api.boardli.ai/health",
     "icon": "https://icons.duckduckgo.com/ip3/api.boardli.ai.ico",
     "slug": "api",
-    "status": "up",
+    "status": "down",
     "uptime": "100.00%",
-    "uptimeDay": "100.00%",
+    "uptimeDay": "99.99%",
     "uptimeWeek": "100.00%",
     "uptimeMonth": "100.00%",
     "uptimeYear": "100.00%",
@@ -51,6 +51,8 @@
     "timeWeek": 874,
     "timeMonth": 798,
     "timeYear": 798,
-    "dailyMinutesDown": {}
+    "dailyMinutesDown": {
+      "2026-08-21": 0
+    }
   }
 ]
